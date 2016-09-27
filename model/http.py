@@ -19,10 +19,13 @@
 #
 ##############################################################################
 
+import openerp
 from openerp import http
+import re
 
 def db_filter(dbs, httprequest=None):
-    httprequest = httprequest or request.httprequest
+
+    httprequest = httprequest or http.request.httprequest
     h = httprequest.environ.get('HTTP_HOST', '').split(':')[0]
     d, _, r = h.partition('.')
     if d == "www" and r:

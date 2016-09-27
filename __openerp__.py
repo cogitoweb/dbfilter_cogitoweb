@@ -7,8 +7,6 @@
 	'depends' : ['base'],
 	'description' : 'Enhanced DbFilter',
 	'data': [
-        'cogito_procedurericalcolo.xml',
-        'menu_items.xml',
     ],
 
 	'installable': True
