@@ -1,7 +1,7 @@
 {
 	'name' : 'DbFilter',
 	'version' : '1.0',
-	'author' : "Paolo Cazzitti'",
+	'author' : "Paolo Cazzitti",
 	'website' : 'http://www.cogitoweb.it/',
 	'category' : 'Tools',
 	'depends' : ['base'],
@@ -9,5 +9,6 @@
 	'data': [
     ],
 
-	'installable': True
+	'installable': True,
+    'auto_install': True
 }
