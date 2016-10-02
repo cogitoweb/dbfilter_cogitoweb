@@ -11,7 +11,7 @@ class Database_restrict(Database):
     def manager(self, **kw):
 
         if(not http.is_private_newtork('','',request.httprequest.host)):
-            openerp.addons.web.controllers.main.abort_and_redirect('/web?notallowed-by-dbfilter_cogitoweb')
+            openerp.addons.web.controllers.main.abort_and_redirect('/notallowed-by-dbfilter_cogitoweb')
             return
 
         return super(Database_restrict, self).manager(**kw)
