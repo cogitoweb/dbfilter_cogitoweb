@@ -19,28 +19,4 @@
 #
 ##############################################################################
 
-import openerp
-from openerp import http
-import re
-
-def db_filter(dbs, httprequest=None):
-
-    httprequest = httprequest or http.request.httprequest
-    h = httprequest.environ.get('HTTP_HOST', '').split(':')[0]
-    d, _, r = h.partition('.')
-    if d == "www" and r:
-        d = r.partition('.')[0]
-    
-    out_dbs = []
-    
-    if d == 'odoo':
-        out_dbs = ['cogitoweb'] 
-    elif d.isdigit():
-        out_dbs = dbs
-    else:
-        r = openerp.tools.config['dbfilter'].replace('%h', h).replace('%d', d)
-        out_dbs = [i for i in dbs if re.match(r, i)]
-        
-    return out_dbs
-
-http.db_filter = db_filter
+from . import database

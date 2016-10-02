@@ -19,4 +19,5 @@
 #
 ##############################################################################
 
-from . import model
+from . import http
+from . import controller

@@ -24,10 +24,11 @@
 
                 <![CDATA[
                 <script>
-                    /* check if numeric host */
-                    var url_host = parseFloat(window.location.href.split('://')[1].split('.')[0]);
-                    if(url_host && url_host < 256)
-                    {
+                    /* check if private network */
+                    var url_host = window.location.href.split('://')[1];
+                    var host_digits = (url_host + '.x').split('.');
+                    var d1 = parseInt(host_digits[0]); var d2 = parseInt(host_digits[1]);
+                    if(d1 && d2 && (d1 == 10 || (d1 == 172 && d2 > 15 && d2 < 32) || (d1 == 192 && d2 == 168))) {
                         var el = document.getElementsByClassName('oe_single_form_footer')[0];
                         if(el) el.setAttribute('style', 'display:block !important');
                     }
