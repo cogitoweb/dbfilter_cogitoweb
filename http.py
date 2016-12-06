@@ -28,7 +28,7 @@ def is_private_newtork(d1,d2,host = ''):
     if(host):
         d1,d2 = (host + '.x').split('.')[:2]
 
-    http._logger.info("call is_private_newtork %s %s", d1, d2)
+    #http._logger.info("call is_private_newtork %s %s", d1, d2)
 
     return (d1 == '10' or (d1 == '172' and int(d2) > 15 and int(d2) < 32) or (d1 == '192' and d2 == '168'))
 
