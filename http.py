@@ -46,11 +46,15 @@ def db_filter(dbs, httprequest=None):
     out_dbs = []
     r1 = r.split('.')[0];
 
-    if mainhost and maindb and d == mainhost:
+    ## allow access to maindb if hostname is mainhost or
+    ## hostname is mainhost-devel
+    if mainhost and maindb and (d == mainhost or d == ('%s-devel' % mainhost)):
         out_dbs = [maindb]
+    ## allow access on any db if id PN
     elif d.isdigit() and r1.isdigit() and is_private_newtork(d,r1):
         # is private network
         out_dbs = dbs
+    ## standard dbfilter
     else:
         r = openerp.tools.config['dbfilter'].replace('%h', h).replace('%d', d)
         out_dbs = [i for i in dbs if re.match(r, i)]
