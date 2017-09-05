@@ -1,67 +1,87 @@
 # -*- coding: utf-8 -*-
+import odoo
+from odoo import http
+from odoo.http import request
+from odoo.addons.web.controllers.main import Database
 
-import openerp
-from openerp import http
-from openerp.http import request
-from openerp.addons.web.controllers.main import Database
+import logging
+_logger = logging.getLogger(__name__)
+
 
 class Database_restrict(Database):
 
+    ### database manager
     @http.route('/web/database/manager', type='http', auth="none")
     def manager(self, **kw):
 
-        if(not http.is_private_newtork('','',request.httprequest.host)):
-            openerp.addons.web.controllers.main.abort_and_redirect('/notallowed-by-dbfilter_cogitoweb')
+        if(not http.is_private_newtork('', '', request.httprequest.host)):
+            odoo.addons.web.controllers.main.abort_and_redirect('/not-allowed-by-dbfilter_cogitoweb')
             return
 
         return super(Database_restrict, self).manager(**kw)
 
-    @http.route('/web/database/backup', type='http', auth="none")
-    def backup(self, backup_db, backup_pwd, token, backup_format='zip'):
 
-        if(not http.is_private_newtork('','',request.httprequest.host)):
+
+    ### database create
+    @http.route('/web/database/create', type='http', auth="none", methods=['POST'], csrf=False)
+    def create(self, master_pwd, name, lang, password, **post):
+
+        if(not http.is_private_newtork('', '', request.httprequest.host)):
             raise Exception("AccessDenied by dbfilter_cogitoweb")
 
-        return super(Database_restrict, self).backup(backup_db, backup_pwd, token, backup_format)
+        return super(Database_restrict, self).create(master_pwd, name, lang, password, **post)
 
 
-    @http.route('/web/database/restore', type='http', auth="none")
-    def restore(self, db_file, restore_pwd, new_db, mode):
 
-        if(not http.is_private_newtork('','',request.httprequest.host)):
+    ### database duplicate
+    @http.route('/web/database/duplicate', type='http', auth="none", methods=['POST'], csrf=False)
+    def duplicate(self, master_pwd, name, new_name):
+
+        if(not http.is_private_newtork('', '', request.httprequest.host)):
             raise Exception("AccessDenied by dbfilter_cogitoweb")
 
-        return super(Database_restrict, self).restore(db_file, restore_pwd, new_db, mode)
+        return super(Database_restrict, self).duplicate(master_pwd, name, new_name)
 
-    @http.route('/web/database/create', type='json', auth="none")
-    def create(self, fields):
 
-        if(not http.is_private_newtork('','',request.httprequest.host)):
+
+    ### database backup
+    @http.route('/web/database/backup', type='http', auth="none", methods=['POST'], csrf=False)
+    def backup(self, master_pwd, name, backup_format = 'zip'):
+
+        if(not http.is_private_newtork('', '', request.httprequest.host)):
             raise Exception("AccessDenied by dbfilter_cogitoweb")
 
-        return super(Database_restrict, self).create(fields)
+        return super(Database_restrict, self).backup(master_pwd, name, backup_format)
 
-    @http.route('/web/database/duplicate', type='json', auth="none")
-    def duplicate(self, fields):
 
-        if(not http.is_private_newtork('','',request.httprequest.host)):
+
+    ### database restore
+    @http.route('/web/database/restore', type='http', auth="none", methods=['POST'], csrf=False)
+    def restore(self, master_pwd, backup_file, name, copy=False):
+
+        if(not http.is_private_newtork('', '', request.httprequest.host)):
             raise Exception("AccessDenied by dbfilter_cogitoweb")
 
-        return super(Database_restrict, self).duplicate(fields)
+        return super(Database_restrict, self).restore(master_pwd, backup_file, name, copy)
 
-    @http.route('/web/database/drop', type='json', auth="none")
-    def drop(self, fields):
 
-        if(not http.is_private_newtork('','',request.httprequest.host)):
+
+    ### database drop
+    @http.route('/web/database/drop', type='http', auth="none", methods=['POST'], csrf=False)
+    def drop(self, master_pwd, name):
+
+        if(not http.is_private_newtork('', '', request.httprequest.host)):
             raise Exception("AccessDenied by dbfilter_cogitoweb")
 
-        return super(Database_restrict, self).drop(fields)
+        return super(Database_restrict, self).drop(master_pwd, name)
 
-    @http.route('/web/database/change_password', type='json', auth="none")
-    def change_password(self, fields):
 
-        if(not http.is_private_newtork('','',request.httprequest.host)):
+
+    ### database password
+    @http.route('/web/database/change_password', type='http', auth="none", methods=['POST'], csrf=False)
+    def change_password(self, master_pwd, master_pwd_new):
+
+        if(not http.is_private_newtork('', '', request.httprequest.host)):
             raise Exception("AccessDenied by dbfilter_cogitoweb")
 
-        return super(Database_restrict, self).change_password(fields)
-
+        return super(Database_restrict, self).change_password(master_pwd, master_pwd_new)
