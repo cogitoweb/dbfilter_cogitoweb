@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Author: Paolo Cazzitti
-#    Copyright 2016 Cogito Srl
+#    Copyright 2017 Cogito Srl
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,11 +19,12 @@
 #
 ##############################################################################
 
-import openerp
-from openerp import http
+import odoo
+from odoo import http
 import re
 
-def is_private_newtork(d1,d2,host = ''):
+
+def is_private_newtork(d1, d2, host=''):
 
     if(host):
         d1,d2 = (host + '.x').split('.')[:2]
@@ -32,14 +33,16 @@ def is_private_newtork(d1,d2,host = ''):
 
     return (d1 == 'localhost' or d1 == '127' or d1 == '10' or (d1 == '172' and int(d2) > 15 and int(d2) < 32) or (d1 == '192' and d2 == '168'))
 
+
 def db_filter(dbs, httprequest=None):
 
-    mainhost = openerp.tools.config.get("main_host");
-    maindb = openerp.tools.config.get("main_db");
+    mainhost = odoo.tools.config.get("main_host");
+    maindb = odoo.tools.config.get("main_db");
 
     httprequest = httprequest or http.request.httprequest
     h = httprequest.environ.get('HTTP_HOST', '').split(':')[0]
     d, _, r = h.partition('.')
+
     if d == "www" and r:
         d = r.partition('.')[0]
 
@@ -50,18 +53,23 @@ def db_filter(dbs, httprequest=None):
     ## hostname is mainhost-devel
     if mainhost and maindb and (d == mainhost or d == ('%s-devel' % mainhost)):
         out_dbs = [maindb]
+
     ## allow access on any db if id PN
     elif d.isdigit() and r1.isdigit() and is_private_newtork(d,r1):
         # is private network
         out_dbs = dbs
+
     ## standard dbfilter
     else:
-        r = openerp.tools.config['dbfilter'].replace('%h', h).replace('%d', d)
+        r = odoo.tools.config['dbfilter'].replace('%h', h).replace('%d', d)
         out_dbs = [i for i in dbs if re.match(r, i)]
 
     return out_dbs
 
-# replase db_filter
+
+
+# replace db_filter
 http.db_filter = db_filter
+
 # expose private network function
 http.is_private_newtork = is_private_newtork

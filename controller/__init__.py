@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Author: Paolo Cazzitti
-#    Copyright 2016 Cogito Srl
+#    Copyright 2017 Cogito Srl
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
