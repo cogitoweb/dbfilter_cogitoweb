@@ -8,7 +8,7 @@
 	'website': 'http://www.cogitoweb.it/',
 
 	'depends': [
-		'base'
+		'base', 'web'
 	],
 	
 	'data': [
