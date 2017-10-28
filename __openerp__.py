@@ -4,7 +4,7 @@
 	'author' : "Cogito srl",
 	'website' : 'http://www.cogitoweb.it/',
 	'category' : 'Tools',
-	'depends' : ['base'],
+	'depends' : ['base','web'],
 	'description' : 'Enhanced DbFilter',
 	'data': [
         	'views/webclient_templates.xml'
