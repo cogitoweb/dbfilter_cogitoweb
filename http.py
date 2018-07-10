@@ -51,7 +51,11 @@ def db_filter(dbs, httprequest=None):
 
     ## allow access to maindb if hostname is mainhost or
     ## hostname is mainhost-devel
-    if mainhost and maindb and (d == mainhost or d == ('%s-devel' % mainhost)):
+    if mainhost and maindb and (
+        d == mainhost or
+        d == ('%s-devel' % mainhost) or
+        d == ('%s-staging' % mainhost)
+    ):
         out_dbs = [maindb]
 
     ## allow access on any db if id PN
