@@ -23,14 +23,14 @@ class Database_restrict(Database):
 
 
     ### database selector
-    @http.route('/web/database/selector', type='http', auth="none")
-    def selector(self, **kw):
+    # @http.route('/web/database/selector', type='http', auth="none")
+    # def selector(self, **kw):
 
-        if(not http.is_private_newtork('', '', request.httprequest.host)):
-            odoo.addons.web.controllers.main.abort_and_redirect('/not-allowed-by-dbfilter_cogitoweb')
-            return
+    #     if(not http.is_private_newtork('', '', request.httprequest.host)):
+    #         odoo.addons.web.controllers.main.abort_and_redirect('/not-allowed-by-dbfilter_cogitoweb')
+    #         return
 
-        return super(Database_restrict, self).selector(**kw)
+    #     return super(Database_restrict, self).selector(**kw)
 
 
 
