@@ -43,11 +43,11 @@ def db_filter(dbs, httprequest=None):
     
     # if port_limit is specified
     # limit access to only 1 db (maindb)
-    p = False
+    p = '80'
     if len(httprequest.environ.get('HTTP_HOST', '').split(':')) > 1:
         p = httprequest.environ.get('HTTP_HOST', '').split(':')[1]
     
-    if p and maindb:
+    if str(p) == str(port_limit) and maindb:
         return [maindb]
         
     d, _, r = h.partition('.')
