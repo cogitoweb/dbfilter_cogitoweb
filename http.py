@@ -36,9 +36,20 @@ def db_filter(dbs, httprequest=None):
 
     mainhost = openerp.tools.config.get("main_host");
     maindb = openerp.tools.config.get("main_db");
+    port_limit = openerp.tools.config.get("port_limit");
 
     httprequest = httprequest or http.request.httprequest
     h = httprequest.environ.get('HTTP_HOST', '').split(':')[0]
+    
+    # if port_limit is specified
+    # limit access to only 1 db (maindb)
+    p = False
+    if len(httprequest.environ.get('HTTP_HOST', '').split(':')) > 1:
+        p = httprequest.environ.get('HTTP_HOST', '').split(':')[1]
+    
+    if p and maindb:
+        return [maindb]
+        
     d, _, r = h.partition('.')
     if d == "www" and r:
         d = r.partition('.')[0]
